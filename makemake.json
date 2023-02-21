@@ -1,0 +1,15 @@
+{
+    "targets": [
+        {
+            "name": "awsl",
+            "type": "executable",
+            "cc": "gcc",
+            "cflags": "-O2 -W -Wall -std=c99",
+            "install": "install -m0755 awsl /usr/bin",
+            "uninstall": "rm -rf /usr/bin/awsl",
+            "sources": [
+                "."
+            ]
+        }
+    ]
+}

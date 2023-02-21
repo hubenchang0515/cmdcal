@@ -1,0 +1,7 @@
+expression = term, {(ADD|SUB), term};
+
+term = factor, (MUL|DIV), factor;
+
+factor = NUMBER | ({ADD|SUB} <factor>) | (LEFT_BRACKET <expression> RIGHT_BRACKET) | invoke;
+
+invoke = FUNCTION, LEFT_BRACKET, [expression], {COMMA, expression}, RIGHT_BRACKET;
