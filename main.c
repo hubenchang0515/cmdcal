@@ -24,20 +24,11 @@ int main(int argc, char* argv[])
     lexer_init(&lexer, argv[1]);
     lexer_parse(&lexer, &tokens);
 
-    // for (size_t i = 0; i < tokens.length; i++)
-    // {
-    //     token_t token;
-    //     vector_get(&tokens, i, &token);
-    //     token_print(&token);
-    // }
-
     parser_t parser;
     parser_init(&parser, &tokens);
 
     ast_node_t* root = parser_generate_ast(&parser);
     vector_release(&tokens, NULL);
-
-    // ast_node_print(root);
 
     double result = execute(root);
     ast_node_release(root);

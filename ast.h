@@ -58,7 +58,7 @@ struct InvokeNode
 {
     node_category_t category;
     string_t func;
-    vector_t arg_nodes;
+    vector_t arg_nodes; // vector<AstNode>
 };
 
 

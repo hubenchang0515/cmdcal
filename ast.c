@@ -1,6 +1,6 @@
 #include "ast.h"
 #include "utils.h"
-#include "token.h"
+#include "token.h"  
 
 void ast_node_release(ast_node_t* node)
 {
@@ -34,7 +34,15 @@ void ast_node_release(ast_node_t* node)
         break;
 
     case NC_INVOKE:
-        vector_release(&(node->invoke.arg_nodes), (void(*)(void*))token_release);
+        for (size_t i = 0; i < node->invoke.arg_nodes.length; i++)
+        {
+            ast_node_t* ast_node;
+            vector_get(&(node->invoke.arg_nodes), i, &ast_node);
+            ast_node_release(ast_node);
+        }
+        string_release(&(node->invoke.func));
+        vector_release(&(node->invoke.arg_nodes), NULL);
+        free(node);
         break;
 
     default:

@@ -36,12 +36,14 @@ double execute(const ast_node_t* node)
         vector_init(&args, sizeof(double));
         for (size_t i = 0; i < node->invoke.arg_nodes.length; i++)
         {
-            ast_node_t arg_node;
+            ast_node_t* arg_node;
             vector_get(&(node->invoke.arg_nodes), i, &arg_node);
-            double value = execute(&arg_node);
+            double value = execute(arg_node);
             vector_append(&args, &value);
         }
-        return func(&args);
+        double value = func(&args);
+        vector_release(&args, NULL);
+        return value;
 
     default:
         ERR("unknown node: %d\n", node->category);

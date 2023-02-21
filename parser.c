@@ -184,7 +184,7 @@ static ast_node_t* parser_invoke(parser_t* parser)
         }
 
         vector_t args;
-        vector_init(&args, sizeof(ast_node_t));
+        vector_init(&args, sizeof(ast_node_t*));
 
         while (!parser_is_end(parser))
         {
@@ -195,7 +195,7 @@ static ast_node_t* parser_invoke(parser_t* parser)
             }
 
             ast_node_t* arg = parser_expr(parser);
-            vector_append(&args, arg);
+            vector_append(&args, &arg);
 
             if (parser->current_token.category == TC_RIGHT_BRACKET)
             {
