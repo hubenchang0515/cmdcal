@@ -10,6 +10,8 @@ make
 sudo make install
 ```
 
+> If you build failed, Please install [makemake](https://github.com/hubenchang0515/makemake) and run `makemake` to generate a new Makefile.
+
 ## Demo
 
 > Syntax detail is in [syntax.ebnf](syntax.ebnf)
@@ -24,6 +26,6 @@ $ awsl 'pow(2, 10)'
 $ awsl 'pow(sin(233), 2) + pow(cos(233), 2)'
 1.000000
 
-$awsl 'log(pow(2, 666))/log(2)'
+$ awsl 'log(pow(2, 666))/log(2)'
 666.000000
 ```
