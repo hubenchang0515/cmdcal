@@ -8,20 +8,13 @@
 #include "parser.h"
 #include "executor.h"
 
-int main(int argc, char* argv[])
+double eval(const char* expr)
 {
-    if (argc != 2)
-    {
-        printf("Usage: %s <expr>\n", argv[0]);
-        printf("     : %s '1+1'\n", argv[0]);
-        return EXIT_FAILURE;
-    }
-
     vector_t tokens;
     vector_init(&tokens, sizeof(token_t));
     
     lexer_t lexer;
-    lexer_init(&lexer, argv[1]);
+    lexer_init(&lexer, expr);
     lexer_parse(&lexer, &tokens);
 
     parser_t parser;
@@ -32,7 +25,33 @@ int main(int argc, char* argv[])
 
     double result = execute(root);
     ast_node_release(root);
+    return result;
+}
 
-    printf("%f\n", result);
-    return EXIT_SUCCESS;
+int main(int argc, char* argv[])
+{
+    if (argc > 2)
+    {
+        printf("Usage: %s [expr]\n", argv[0]);
+        printf("       %s       start interactive mode\n", argv[0]);
+        printf("       %s '1+1' eval 1+1\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    if (argc == 2)
+    {
+        double result = eval(argv[1]);
+        printf("%f\n", result);
+        return EXIT_SUCCESS;
+    }
+
+    char expr[1024];
+    while (true)
+    {
+        printf("> ");
+        scanf("%[^\n]%*c", expr);
+        double result = eval(expr);
+        printf("= %f\n", result);
+    }
+    
 }
