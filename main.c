@@ -8,6 +8,8 @@
 #include "parser.h"
 #include "executor.h"
 
+#define BUFF_SIZE 8
+
 double eval(const char* expr)
 {
     vector_t tokens;
@@ -28,6 +30,48 @@ double eval(const char* expr)
     return result;
 }
 
+char* get_input()
+{
+    char* expr = malloc(BUFF_SIZE);
+    if (expr == NULL)
+        return NULL;
+    int capacity = BUFF_SIZE;
+    int len = 0;
+    while (1)
+    {
+        int ch = getchar();
+        if (ch == EOF)
+        {
+            free(expr);
+            return NULL;
+            break;
+        }
+
+        if (ch == '\n')
+        {
+            expr[len] = '\0';
+            break;
+        }
+
+        if (len + 1 >= capacity)
+        {
+            char* ptr = realloc(expr, capacity + BUFF_SIZE);
+            if (ptr == NULL)
+            {
+                free(expr);
+                return NULL;
+            }
+            expr = ptr;
+            capacity += BUFF_SIZE;
+        }
+
+        expr[len] = (char)ch;
+        len += 1;
+    }
+
+    return expr;
+}
+
 int main(int argc, char* argv[])
 {
     if (argc > 2)
@@ -45,13 +89,20 @@ int main(int argc, char* argv[])
         return EXIT_SUCCESS;
     }
 
-    char expr[1024];
     while (true)
     {
         printf("> ");
-        scanf("%[^\n]%*c", expr);
+        char* expr = get_input();
+        if (expr == NULL)
+        {
+            printf("\n");
+            break;
+        }
         double result = eval(expr);
         printf("= %f\n", result);
+        free(expr);
     }
     
+
+    return 0;
 }
